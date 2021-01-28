@@ -1,6 +1,8 @@
 import sys
 import os
 
+#Looks good!
+
 def clear():
   os.system( 'clear' )
 
