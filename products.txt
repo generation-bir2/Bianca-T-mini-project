@@ -1,7 +1,5 @@
-Coke
 Coke Zero
-Latte
 Flat Whitte
 Expresso
-Panini
+Panini ham
 Croissant

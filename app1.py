@@ -23,10 +23,15 @@ def couriers_menu():
 #         1 Show products menu
 #         ''')
 
-
-products = []
+# def show_products():
+#       products = []
+#       print('')
+      
+def show_products():
+  products = []
   with open("products.txt", "r") as file:
     for product in file:
+        products.append(product.strip())
   return products
       
       
@@ -76,28 +81,25 @@ show_products()
 #           delete_product()
 #           show_products()
 
-# #Shows the main menu, requires input from user 0 exit app, 1 showing the second menu
-# while True:
-#       outside_menu()
-#       user_option = int(input("Select an option: "))
-#       if user_option == 0:
-#         exit_app()  
-#       elif user_option == 1:
-#         products_menu()
-#       elif user_option == 2:
-#         couriers_menu()
+#Shows the main menu, requires input from user 0 exit app, 1 showing the second menu
+while True:
+      outside_menu()
+      user_option = int(input("Select an option: "))
+      if user_option == 0:
+        exit_app()  
+      elif user_option == 1:
+        products_menu()
+      
 
 # while True:
 #       outside_menu()
 #       user_option = int(input("Select an option: "))
 #       if user_option == 0:
-#         pass
+        
 #         #save app state then exit
 #       if user_option == 1:
 #         products_menu()
-#       if user_option == 2:
-#         couriers_menu()
-      
+     
         
         
         

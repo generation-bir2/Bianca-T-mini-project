@@ -1,13 +1,26 @@
 import sys
 import os
 
-print('Welcome to cafe royal!'+ '\n')
 def clear():
   os.system( 'clear' )
 
 def exit_app():
   sys.exit(0)
-  
+
+def read_products():
+  products = []
+  with open("products.txt", "r") as file:
+      for product in file:
+          products.append(product.strip())
+  return products
+
+def save_products():
+  with open("products.txt", "w") as file:
+      for product in products:
+            file.write(product + "\n")
+    
+
+
 #this method is responsible for exiting the app or return the products menu
 def main_menu():
   print('''
@@ -15,10 +28,6 @@ def main_menu():
         1 Show products menu
         ''')
   
-
-
-products = ["Coke","Coke Zero","Latte","Flat Whitte","Expresso","Panini","Croissant"]
-print('\n')
 
 #this method only shows the products menu 
 def show_products_menu():   
@@ -34,17 +43,20 @@ def create_new_product():
   products.append(new_product)
   
 def update_product():
-  choice = int(input("Choose the product that you want to update starting from 0: "))
+  choice = int(input("Choose the product that you want to update starting from 1: or 0 to cancel"))
+  if choice == 0:
+    return
   new_product1 = input("Enter the new product: ")
-  products[choice] = new_product1
+  products[choice-1] = new_product1
 
 def delete_product():
-  delete_products = int(input("Select a product to delete starting from 0: "))
-  products.pop(delete_products)
+  delete_products = int(input("Select a product to delete starting from 1: or 0 to cancel"))
+  if delete_products == 0:
+    return
+  products.remove(products[delete_products-1])
 
-def show_products():
-  print(products)
-  print(' ')
+
+def couriers_menu():
   
 #expect an input from the user
 def products_menu():
@@ -54,25 +66,33 @@ def products_menu():
     if user_option == 0:
       break
     elif user_option == 1:
-      show_products()
+      print(products)
     elif user_option == 2:
-      show_products()
+      print(products)
       create_new_product()
-      show_products() 
+      print(products)
     elif user_option == 3:
-      show_products()
+      print(products)
       update_product()
-      show_products()
+      print(products)
     elif user_option == 4:
-      show_products()
+      print(products)
       delete_product()
-      show_products()
+      print(products)
+
 
 #Shows the main menu, requires input from user 0 exit app, 1 showing the second menu
+products = read_products()
+
 while True:
-      main_menu()
-      user_option = int(input("Select an option: "))
-      if user_option == 0:
+  
+  print('Welcome to cafe royal!'+ '\n')
+  main_menu()
+  user_option = int(input("Select an option: "))
+  if user_option == 0:
+        save_products()
         exit_app()  
-      elif user_option == 1:
-        products_menu()
+  elif user_option == 1:
+    products_menu()
+  elif user_option == 2:
+    couriers_menu()
