@@ -1,5 +1,13 @@
-John
-George
-Mike
-Sebastian
-Thomas
+name,phone
+
+John,  0744469378
+
+George, 0744469378
+
+Thomas, 0744469378
+
+Luis, 0744469378
+
+Paul, 0744469378
+
+Matt, 0744469378
