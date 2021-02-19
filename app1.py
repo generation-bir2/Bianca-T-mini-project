@@ -310,7 +310,7 @@ def products_menu():
       products.pop(product_delete - 1)
       print_list(products)
 #csv
- #def read_couriers():
+#def read_couriers():
     #   couriers_list = []
 #   with open ("couriers.csv", "r") as file:
 #     csv_file = csv.DictReader(file)
@@ -348,9 +348,7 @@ def products_menu():
   #     shape+= f'{i+1} - {couriers_name} : {couriers_phone}  | '
   # print('\n', shape)
   
-  
-  
-  
+
   # products =[]
         # product_index = int (input ("Select a product: \n"))
         # selected_product = products[product_index]

@@ -1,6 +1,35 @@
-from app import*
-	#orders shape
-def orders_menu():
+import os
+import json
+from databaseconnection import*
+from products import *
+from couriers import *
+
+def clear():
+  os.system( 'clear' )
+
+def exit_app():
+    sys.exit(0)
+
+def show_orders_menu():
+  print('''
+          0: Return to main menu
+          1: Orders
+          2: Create a new order
+          3: Update order status
+          4: Update order
+          5: Delete order \n''')
+
+def print_orders(read_db):
+  shape = " "
+  sql = 'SELECT * from orders'
+  orders = read_db(sql)    
+  for i in range(len(orders)):
+    shape = '\n'
+    for key, value in orders[i].items():
+      shape += f'{key}: {value}\n'
+    print(shape)
+
+def orders_menu(read_db, save_db, delete_db):
 	while True:
 		show_orders_menu()
 		user_option = int(input("Select an option: "))
@@ -8,7 +37,7 @@ def orders_menu():
 		if user_option == 0:
 			return
 		elif user_option == 1:
-			print_orders()
+			print_orders(read_db)
 		
 		elif user_option == 2:
 			cust_name = str(input("Customer Name: "))
@@ -17,7 +46,7 @@ def orders_menu():
 			order_status = 'preparing'
 		
 			list_items = []
-			products = print_products()
+			products = print_products(read_db)
 			while True:
 				product = int(input("\nSelect product's id or Press 0 to finish: "))
 				if product == 0:
@@ -29,24 +58,25 @@ def orders_menu():
 						product_inlist = True
 						list_items.append(product)
 				if product_inlist == False:
-					print("We do not have this product, choose a product that matches the product's ID \n")
-					print(list_items)
-			print(f"This is your order's list {list_items}")
+					print("\nWe do not have this product, choose a product that matches the product's ID \n")
+					
+			print(f"\nThis is your order's list {list_items}")
 			order_items = json.dumps(list_items)
 			
-			couriers = print_couriers()
+			couriers = print_couriers(read_db)
 			while True:
-				couriers_id = int(input("Select a courier from the list or press 0 to finish: \n"))
+				couriers_id = int(input("\nSelect a courier from the list or press 0 to finish: \n"))
 				if couriers_id == 0:
 					break  
 				
 				sql = "INSERT INTO orders (customer_name, customer_address,customer_phone,couriers_id, order_status, items) VALUES (%s, %s, %s, %s, %s, %s)"
 				val = (cust_name, cust_address, cust_phone, couriers_id, order_status, order_items)
 				save_db(sql, val)
+        
 
 		elif user_option == 3:
-			print_orders()
-			updated_status = int(input('Choose an order by ID that you want to update its status or press 0 to cancel: '))
+			print_orders(read_db)
+			updated_status = int(input('\nChoose an order by ID that you want to update its status or press 0 to cancel: '))
 		
 			if updated_status == 0:
 				return
@@ -63,7 +93,7 @@ def orders_menu():
 			print("\nOrder status has been successfully updated.")
 		
 		elif user_option == 4:
-			print_orders()
+			print_orders(read_db)
 			order_id = int(input("\n Select an order to update or press 0 to cancel: "))
 			if order_id == 0:
 				return
@@ -89,9 +119,8 @@ def orders_menu():
 				sql = 'UPDATE orders SET items = %s WHERE order_id = %s'
 				list_items = []
 				print("")
-				products = print_products()
+				products = print_products(read_db)
 				while True:
-				
 					product = int(input("\n Select a product's ID or press 0 to finish: "))
 					if product == 0:
 						break
@@ -111,7 +140,7 @@ def orders_menu():
 					save_db(sql,val)
 					
 				sql = 'UPDATE orders SET couriers_id = %s WHERE order_id = %s'
-				couriers = print_couriers()
+				couriers = print_couriers(read_db)
 			
 			while True:
 				update_courier = input("\n Please enter the new courier's ID or press enter to skip: ")
@@ -130,8 +159,9 @@ def orders_menu():
 		
 
 		elif user_option == 5:
-			print_orders()
+			print_orders(read_db)
 			deleted_order = int(input("\n Choose an order to delete by its ID or press 0 to cancel:\n "))
+
 			if deleted_order == 0:
 				return
 			sql = f"DELETE FROM orders WHERE order_id={deleted_order}"
