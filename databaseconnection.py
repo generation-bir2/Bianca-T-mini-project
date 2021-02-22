@@ -18,7 +18,7 @@ def db_connect():
     auth_plugin='mysql_native_password'
     )
   
-# prints out the content of the database
+#retrieves the content of the database
 def read_db(sql):
   my_db = db_connect()
   mycursor = my_db.cursor(dictionary=True)
@@ -27,20 +27,11 @@ def read_db(sql):
   my_db.close()
   return content
 
-#insert multiple values
-def save_db(sql,args):
+#executes an action which can be insert/update/delete data from database
+def action_db(sql, args=None):
   my_db = db_connect()
   mycursor = my_db.cursor(dictionary=True)
   mycursor.execute(sql,args)
-  my_db.commit()
-  mycursor.close()
-  my_db.close()
-  
-#insert a single value
-def delete_db(sql):
-  my_db = db_connect()
-  mycursor = my_db.cursor(dictionary=True)
-  mycursor.execute(sql)
   my_db.commit()
   mycursor.close()
   my_db.close()

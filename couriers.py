@@ -11,7 +11,6 @@ def show_couriers_menu():
             4: Delete a courier \n''')
 
 def print_couriers(read_db):
-    shape = " "
     sql = 'SELECT * from couriers'
     couriers = read_db(sql)
     for item in couriers:
@@ -22,7 +21,7 @@ def print_couriers(read_db):
       print(shape)
     return couriers
 
-def couriers_menu(read_db, save_db, delete_db):
+def couriers_menu(read_db, action_db,):
   while True:
     show_couriers_menu()
     user_option = int(input("Select an option: "))
@@ -31,15 +30,17 @@ def couriers_menu(read_db, save_db, delete_db):
       return
     elif user_option == 1:
       print_couriers(read_db)
-        
+    
+    #Create new courier 
     elif user_option == 2:
-      new_courier = str(input("\n Please add courier's name : "))
-      courier_phone = int(input("\n Please add courier's phone number: "))
+      new_courier = str(input("\nPlease add courier's name : "))
+      courier_phone = int(input("\nPlease add courier's phone number: "))
       sql = "INSERT INTO couriers (couriers_name, couriers_phone) VALUES (%s, %s)"
       val = (new_courier, courier_phone)
-      save_db(sql, val)
+      action_db(sql, val)
       print(f"\n {new_courier} was succesfully added.")
-                  
+    
+    #Update courier             
     elif user_option == 3:
       print_couriers(read_db)
       
@@ -47,26 +48,27 @@ def couriers_menu(read_db, save_db, delete_db):
       if courier_id == 0:
           return
       
-      new_courier_name = input("\nWhat's the name of the new courier: ")
+      new_courier_name = input("\nPlease enter the name of the new courier: ")
       sql = "UPDATE couriers SET couriers_name = %s WHERE couriers_id = %s"
       if new_courier_name !="":
         val = (new_courier_name, courier_id)
-        save_db(sql,val)
+        action_db(sql,val)
           
       
-      new_courier_phone = input("\nWhat's phone number of the new courier: ")
+      new_courier_phone = input("\nPlease enter the phone number of the new courier: ")
       sql = "UPDATE couriers SET couriers_phone = %s WHERE couriers_id = %s"
       if new_courier_phone !="":
         val = (new_courier_phone, courier_id)
-        save_db(sql,val)
+        action_db(sql,val)
           
-      print(f"\n Courier nr {courier_id} was succesfully updated.")
-        
+      print(f"\nCourier nr {courier_id} was succesfully updated.")
+    
+    #Delete courier  
     elif user_option == 4:
       print_couriers(read_db)
       deleted_couriers = int(input("\nChoose the courier that you want to delete or press 0 to cancel: "))
       if deleted_couriers == 0:
         return
       sql = f"DELETE FROM couriers WHERE couriers_id={deleted_couriers}"
-      delete_db(sql)
+      action_db(sql)
       print( f"\nCourier nr {deleted_couriers} was successfully deleted.")

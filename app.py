@@ -1,7 +1,8 @@
 import sys
 import os
-import 
+import json
 import mysql.connector
+
 from products import *
 from couriers import *
 from orders import *
@@ -20,7 +21,7 @@ def main_menu():
           3 Show order menu
           ''')
 
-#main menu 
+#main menu starts here
 while True:
   clear()
   print( '''
@@ -42,9 +43,9 @@ while True:
   if user_option == 0:
     exit_app()  
   elif user_option == 1:
-    products_menu(read_db, save_db, delete_db)
+    products_menu(read_db, action_db)
   elif user_option == 2:
-    couriers_menu(read_db, save_db, delete_db)
+    couriers_menu(read_db, action_db)
   elif user_option == 3:
-    orders_menu(read_db, save_db, delete_db)
+    orders_menu(read_db, action_db)
       
